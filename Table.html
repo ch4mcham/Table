@@ -1,0 +1,674 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Wala ra</title>
+    <style>
+        * {
+            padding: 0;
+            margin: 0;
+            box-sizing: border-box;
+            overflow-y: hidden;
+        }
+
+        body {
+            background-color: #f8f5f5;
+            font-family: Arial, sans-serif;
+            display: flex;
+            justify-content: space-between;
+            padding: 20px;
+            height: 100vh;
+            overflow-x: hidden;
+            /* Prevent scrolling on the body */
+        }
+/* 
+        .container {
+            width: 30%;
+            height: 75%;
+            display: flex;
+            translate: 50% 10%;
+            flex-direction: column;
+            border-radius: 20px;
+            border: 10px solid transparent;
+            background-color: #5c5c5c;
+            color: white;
+            font-weight: bold;
+            font-size: 20px;
+            padding: 20px;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .container::before {
+            content: '';
+            position: absolute;
+            top: -10px;
+            left: -10px;
+            right: -10px;
+            bottom: -10px;
+            border-radius: 20px;
+            border: 20px solid rgba(255, 255, 255, 0.5);
+            box-shadow: 0 0 20px rgba(255, 255, 255, 0.7);
+            animation: borderGlow 2.4s infinite alternate;
+            pointer-events: none;
+        }
+
+        @keyframes borderGlow {
+            0% {
+                transform: scale(1);
+                opacity: 0.8;
+            }
+
+            100% {
+                transform: scale(1.05);
+                opacity: 1;
+            }
+        } */
+
+/* 
+
+        @keyframes rotate {
+    from {
+        transform: rotate(0deg);
+    }
+    to {
+        transform: rotate(360deg);
+    }
+}  */
+
+
+.container {
+
+    width: 30%;
+    height: 75%;
+    display: flex;
+    flex-direction: column;
+    border-radius: 20px;
+    translate: 50% 10%;
+    border: 5px solid #efeaea;
+    background-color: #5c5c5c;
+    color: white;
+    font-weight: bold;
+    font-size: 20px;
+    padding: 20px;
+
+    animation: rotate 20s linear infinite; 
+}
+
+
+
+        #pagination {
+            background-color: #5c5c5c;
+
+        }
+
+        button:hover {
+            transition: 0.4s ease-in-out;
+            background-color: rgb(0, 0, 0);
+        }
+
+        #pagination button {
+            background-color: #5c5c5c;
+            padding: 10px;
+            margin: 5px;
+            color: #ffffff;
+            cursor: pointer;
+            border-radius: 5px;
+            transition: 0.3s ease-in-out;
+        }
+
+        #pagination button:hover {
+            color: #efefef;
+            background-color: #7c7979;
+            /* Text color on hover */
+            border-color: #1b1c1d;
+            /* Border color on hover */
+        }
+
+        .tablecontainer {
+            width: 50%;
+            position: fixed;
+            right: 35px;
+            top: 75px;
+            max-height: 80%;
+            overflow-y: hidden;
+            border: 1px solid #ddd;
+            border-radius: 8px;
+            background-color: trasparent;
+        }
+
+        table {
+            width: 100%;
+            border-collapse: collapse;
+            overflow-y: hidden;
+        }
+
+        img {
+            width: 10vh;
+        }
+
+        #products {
+            border-radius: 8px;
+            font-family: Arial, Helvetica, sans-serif;
+            background-color: #605f5f;
+            color: #ffffff;
+            overflow-y: hidden;
+        }
+
+        #products td,
+        #products th {
+            border: 1px solid;
+            padding: 0;
+            overflow-y: hidden;
+        }
+
+        .button-container {
+            display: flex;
+            justify-content: center;
+            /* Center the buttons horizontally */
+            gap: 10px;
+            /* Optional: Adds space between buttons */
+        }
+
+        #products tr:nth-child(even) {
+            background-color: #706c6c;
+            transition: 0.4s ease-in-out;
+        }
+
+        #products tr:nth-child(odd) {
+            background-color: rgba(72, 70, 70, 0.2);
+            transition: 0.4s ease-in-out;
+        }
+
+        tr:hover {
+            background-color: #9a9898;
+            transform: scale(1.02);
+            box-shadow: 0px 4px 8px rgba(0, 0, 0, 0.2);
+            cursor: pointer;
+            overflow-y: hidden;
+        }
+
+        #products th {
+            padding-top: 10px;
+            padding-bottom: 12px;
+            text-align: center;
+            background-color: rgb(31, 31, 28);
+            color: white;
+            overflow-y: hidden;
+        }
+
+        button {
+            margin-top: 20px;
+            background-color: #5c5c5c;
+            color: white;
+            border: none;
+            padding: 10px 20px;
+            cursor: pointer;
+        }
+
+        #submit {
+            width: 50%;
+            border-radius: 10px;
+            margin: 0;
+            background-color: #474646;
+        }
+
+        #searchInput {
+            margin-top: 10;
+        }
+
+        th,
+        td {
+            padding: 10px;
+            text-align: center;
+            border: 1px solid #ddd;
+        }
+
+        .modal {
+            display: none;
+            position: fixed;
+            z-index: 1;
+            left: 0;
+            top: 0;
+            width: 100%;
+            height: 100%;
+            overflow: auto;
+            background-color: rgba(0, 0, 0, 0.4);
+            padding-top: 60px;
+        }
+
+        .modal-content {
+            background-color: #fefefe;
+            translate: 200% 65%;
+            top: 50rem;
+            padding: 20px;
+            border: 1px solid #888;
+            width: 20%;
+        }
+
+        .modal-content2 {
+            background-color: #fefefe;
+            translate: 0% 20%;
+            margin: auto;
+            top: 50rem;
+            padding: 20px;
+            border: 1px solid #888;
+            width: 20%;
+        }
+
+        .modal-content3 {
+            background-color: #fefefe;
+            translate: 10% 115%;
+            margin: auto;
+            top: 50rem;
+            padding: 20px;
+            border: 1px solid #888;
+            width: 20%;
+        }
+
+        .close {
+            color: #aaa;
+            float: right;
+            font-size: 28px;
+            font-weight: bold;
+        }
+
+        input {
+            display: flex;
+            text-align: center;
+            justify-content: center;
+            width: 50%;
+            height: 2rem;
+            border: 2px solid grey;
+            justify-content: center;
+            font-size: 15px;
+        }
+
+        input[type="file"] {
+            border: none;
+            /* Removes the border */
+            outline: none;
+            /* Removes the outline when focused */
+            background-color: transparent;
+            /* Optional: Makes the background transparent */
+        }
+
+        .close {
+            cursor: pointer;
+        }
+
+        #editImage {
+            border: none;
+        }
+
+        #backgroundVideo {
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            min-width: 100%;
+            min-height: 100%;
+            width: auto;
+            height: auto;
+            z-index: -1;
+            /* Place video behind content */
+            transform: translate(-50%, -50%);
+        }
+
+        #closeEditButton {
+            color: #aaa;
+            float: right;
+            font-size: 28px;
+            font-weight: bold;
+        }
+    </style>
+</head>
+
+<body>
+    <video id="backgroundVideo" autoplay loop muted>
+        <source src="Loop.mp4" type="video/mp4">
+    </video>
+
+
+    <div class="container">
+        <h1>Shop Universe</h1>
+        <label for="pname">Product Name</label>
+        <input type="text" id="pname" placeholder="Enter product name">
+        <label for="price">Price</label>
+        <input type="number" id="price" placeholder="Enter price">
+        <label for="qty">Quantity</label>
+        <input type="number" id="qty" placeholder="Enter quantity">
+        <label for="Description">Description</label>
+        <input type="text" id="Description" placeholder="Enter description">
+        <label for="images">Upload Image</label>
+        <input type="file" id="images" accept="image/*" onchange="previewImage(event)">
+        <img id="imagePreview"
+            style="display: none; width: 100px; height: 100px; border: 1px solid #ccc; margin-top: 10px;"
+            alt="Image Preview">
+        <button id="submit">Submit</button>
+        <input type="text" id="searchInput" placeholder="Search products..." onkeyup="searchProducts()">
+    </div>
+
+    <div class="tablecontainer">
+        <table id="products" cellpadding="1">
+            <thead>
+                <tr>
+                    <th>#</th>
+                    <th>Image</th>
+                    <th>Product Name</th>
+                    <th>Price</th>
+                    <th>Quantity</th>
+                    <th>Total</th>
+                    <th>Action</th>
+                </tr>
+            </thead>
+            <tbody id="product_content" cellpadding="0"></tbody>
+        </table>
+        <div id="pagination"></div>
+    </div>
+
+    <div id="myModal" class="modal">
+        <div class="modal-content">
+            <img id="modalImage" style="width:50%; max-width:100px;">
+            <span id="closeEditButton" style="cursor:pointer;">&times;</span>
+            <p id="modalProductName"></p>
+            <p id="modalProductPrice"></p>
+            <p id="modalProductQuantity"></p>
+            <p id="modalProductDescription"></p>
+        </div>
+    </div>
+
+    <div id="editModal" class="modal">
+        <div class="modal-content2">
+            <span class="close" onclick="closeEditModal()">&times;</span>
+            <h2>Edit Product</h2>
+            <label for="editPname">Product Name</label>
+            <input type="text" id="editPname">
+            <label for="editPrice">Price</label>
+            <input type="number" id="editPrice">
+            <label for="editQty">Quantity</label>
+            <input type="number" id="editQty">
+            <label for="editDescription">Description</label>
+            <input type="text" id="editDescription">
+            <label for="editImage">Upload New Image</label>
+            <input type="file" id="editImage" accept="image/*" onchange="previewEditImage(event)">
+            <img id="editImagePreview"
+                style="display: none; width: 100px; height: 100px; border: 1px solid #ccc; margin-top: 10px;"
+                alt="Edit Image Preview">
+            <button id="saveEdit" onclick="saveEdit()">Save Changes</button>
+        </div>
+    </div>
+
+    <div id="deleteModal" class="modal">
+        <div class="modal-content3">
+            <span class="close" onclick="closeDeleteModal()">&times;</span>
+            <h2>Confirm Deletion</h2>
+            <p>Are you sure you want to delete this product?</p>
+            <button id="confirmDelete" onclick="confirmDelete()">Yes, Delete</button>
+            <button onclick="closeDeleteModal()">Cancel</button>
+        </div>
+    </div>
+
+    <script>
+        let products = JSON.parse(localStorage.getItem("productsData")) || [];
+        let currentEditIndex = null;
+        let currentPage = 1;
+        const itemsPerPage = 5;
+
+        document.getElementById('submit').addEventListener('click', addProduct);
+        displayData();
+
+        function previewImage(event) {
+            const reader = new FileReader();
+            reader.onload = function () {
+                const imagePreview = document.getElementById('imagePreview');
+                imagePreview.src = reader.result;
+                imagePreview.style.display = 'block'; // Show the image preview
+            };
+            reader.readAsDataURL(event.target.files[0]);
+        }
+
+        function previewEditImage(event) {
+            const reader = new FileReader();
+            reader.onload = function () {
+                const editImagePreview = document.getElementById('editImagePreview');
+                editImagePreview.src = reader.result;
+                editImagePreview.style.display = 'block'; // Show the edited image preview
+            };
+            reader.readAsDataURL(event.target.files[0]);
+        }
+
+        function closeModal() {
+            document.getElementById('myModal').style.display = "none";
+        }
+
+        // Event listener for the close button
+        document.getElementById('closeEditButton').addEventListener('click', closeModal);
+
+
+        function searchProducts() {
+            const query = document.getElementById('searchInput').value.toLowerCase();
+            const filteredProducts = products.filter(product =>
+                product.product_name.toLowerCase().includes(query) ||
+                product.product_description.toLowerCase().includes(query)
+            );
+
+            currentPage = 1; // Reset to the first page
+            displayData(filteredProducts);
+        }
+        function addProduct() {
+            const name = document.getElementById('pname').value.trim(); // Use trim() to remove whitespace
+            const price = parseFloat(document.getElementById('price').value);
+            const qty = parseInt(document.getElementById('qty').value);
+            const description = document.getElementById('Description').value;
+            const imageInput = document.getElementById('images');
+            const image = imageInput.files[0];
+
+            // Check for empty or whitespace-only product name
+            if (!name || name.length === 0) {
+                alert("Product name cannot be empty or whitespace only.");
+                return;
+            }
+
+            // Check for duplicate product name
+            const productExists = products.some(product => product.product_name.toLowerCase() === name.toLowerCase());
+            if (productExists) {
+                alert("This product name already exists. Please choose a different name.");
+                return;
+            }
+
+            if (price && qty && description && image) {
+                const reader = new FileReader();
+                reader.onload = function () {
+                    const imageSrc = reader.result;
+
+                    // Check if the image already exists in the products list
+                    const imageExists = products.some(product => product.product_image === imageSrc);
+                    if (imageExists) {
+                        alert("This image has already been used for another product. Please choose a different image.");
+                        return;
+                    }
+
+                    const newProduct = {
+                        product_name: name,
+                        product_price: price,
+                        product_quantity: qty,
+                        product_description: description,
+                        product_image: imageSrc
+                    };
+
+                    // Add the new product to the list
+                    products.push(newProduct);
+                    localStorage.setItem("productsData", JSON.stringify(products));
+
+                    // Reset the form fields and update the display
+                    resetForm();
+                    displayData();
+                };
+
+                // Read the image as
+
+                reader.readAsDataURL(image);
+            } else {
+                alert("Please fill all fields and upload an image.");
+            }
+        }
+
+
+
+        function resetForm() {
+            document.getElementById('pname').value = '';
+            document.getElementById('price').value = '';
+            document.getElementById('qty').value = '';
+            document.getElementById('Description').value = '';
+            document.getElementById('images').value = '';
+            document.getElementById('imagePreview').style.display = 'none'; // Hide the preview
+        }
+
+        function displayData(filteredProducts = products) {
+            const productContent = document.getElementById("product_content");
+            productContent.innerHTML = '';
+            const start = (currentPage - 1) * itemsPerPage;
+            const end = start + itemsPerPage;
+            const paginatedProducts = filteredProducts.slice(start, end);
+
+            paginatedProducts.forEach((product, index) => {
+                const totalPrice = (product.product_price * product.product_quantity).toFixed(2);
+                const row = document.createElement('tr');
+                row.innerHTML = `
+            <td>${start + index + 1}</td>
+            <td><img src="${product.product_image}" alt="Product Image"></td>
+            <td>${product.product_name}</td>
+            <td>₱${product.product_price.toLocaleString(undefined, { minimumFractionDigits: 2 })}</td> <!-- Price with peso sign and commas -->
+            <td>${product.product_quantity}</td>
+            <td>₱${(product.product_price * product.product_quantity).toLocaleString(undefined, { minimumFractionDigits: 2 })}</td> <!-- Total with peso sign and commas -->
+            <td>
+                   <div class="button-container">
+                <button onclick="viewProduct(${start + index})">View</button>
+                <button onclick="openEditModal(${start + index})">Edit</button>
+                <button onclick="openDeleteModal(${start + index})">Delete</button>
+                 </div>
+            </td>
+        `;
+                productContent.appendChild(row);
+            });
+
+            setupPagination(filteredProducts.length);
+        }
+
+
+        function setupPagination(totalItems) {
+            const pagination = document.getElementById("pagination");
+            pagination.innerHTML = '';
+
+            const totalPages = Math.ceil(totalItems / itemsPerPage);
+            for (let i = 1; i <= totalPages; i++) {
+                const pageButton = document.createElement('button');
+                pageButton.textContent = i;
+                pageButton.onclick = function () {
+                    currentPage = i;
+                    displayData();
+                };
+                pagination.appendChild(pageButton);
+            }
+        }
+        function viewProduct(index) {
+            const product = products[index];
+            document.getElementById('modalProductName').innerText = `Name: ${product.product_name}`;
+            document.getElementById('modalProductPrice').innerText = `Price: ₱${product.product_price.toLocaleString(undefined, { minimumFractionDigits: 2 })}`; // Price with peso sign and commas
+            document.getElementById('modalProductQuantity').innerText = `Quantity: ${product.product_quantity}`;
+            document.getElementById('modalProductDescription').innerText = `Description: ${product.product_description}`;
+            document.getElementById('modalImage').src = product.product_image;
+
+            document.getElementById('myModal').style.display = "block";
+        }
+
+
+
+
+        function openEditModal(index) {
+            currentEditIndex = index;
+            const product = products[index];
+            document.getElementById('editPname').value = product.product_name;
+            document.getElementById('editPrice').value = product.product_price;
+            document.getElementById('editQty').value = product.product_quantity;
+            document.getElementById('editDescription').value = product.product_description;
+            document.getElementById('editImagePreview').style.display = 'none'; // Hide the preview
+            document.getElementById('editModal').style.display = 'block';
+        }
+
+        function saveEdit() {
+            const name = document.getElementById('editPname').value;
+            const price = parseFloat(document.getElementById('editPrice').value);
+            const qty = parseInt(document.getElementById('editQty').value);
+            const description = document.getElementById('editDescription').value;
+            const imageInput = document.getElementById('editImage');
+            const image = imageInput.files[0];
+
+            const product = products[currentEditIndex];
+
+            if (name && price && qty && description) {
+                product.product_name = name;
+                product.product_price = price;
+                product.product_quantity = qty;
+                product.product_description = description;
+
+                if (image) {
+                    const reader = new FileReader();
+                    reader.onload = function () {
+                        product.product_image = reader.result; // Update image if new one is uploaded
+                        updateLocalStorage();
+                        closeEditModal();
+                    };
+                    reader.readAsDataURL(image);
+                } else {
+                    updateLocalStorage();
+                    closeEditModal();
+                }
+            } else {
+                alert("Please fill all fields.");
+            }
+        }
+
+        function updateLocalStorage() {
+            localStorage.setItem("productsData", JSON.stringify(products));
+            displayData();
+        }
+
+        function closeEditModal() {
+            document.getElementById('editModal').style.display = 'none';
+        }
+
+        function openDeleteModal(index) {
+            currentEditIndex = index;
+            document.getElementById('deleteModal').style.display = 'block';
+        }
+
+        function confirmDelete() {
+            products.splice(currentEditIndex, 1);
+            localStorage.setItem("productsData", JSON.stringify(products));
+            displayData();
+            closeDeleteModal();
+        }
+
+        function closeDeleteModal() {
+            document.getElementById('deleteModal').style.display = 'none';
+        }
+
+        document.querySelectorAll('.close').forEach((element) => {
+            element.onclick = function () {
+                const modal = element.closest('.modal');
+                modal.style.display = 'none';
+            };
+        });
+
+        window.onclick = function (event) {
+            if (event.target.classList.contains('modal')) {
+                event.target.style.display = "none";
+            }
+        };
+    </script>
+</body>
+
+</html>
