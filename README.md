@@ -1,0 +1,1 @@
+On the Table Simplified. Make an "Images" folder and put relative images there. It only supports the files under Images folder. Also there's a bug or something. After submission, the view modal has no value. But when Edit Modal is clicked and saved the view modal automatically adjusts itself. 
