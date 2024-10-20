@@ -1,0 +1,231 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Simplified Table</title>
+</head>
+<style>
+    body {
+        display: flex;
+        padding: 10rem;
+        justify-content: center;
+    }
+    .container {
+        /* Display flex para ma linya sila tanan in a column way tapos ang width na sa input ang gi adjust*/
+        display: flex;
+        width: 20%;
+        flex-direction: column;
+    }
+
+    .products {
+        /* para sa table ni siya, margin para layo gamay ang table sa input nga container, nya height for height ykyk*/
+        margin: 20px;
+        height: 20%;
+    }
+
+    img {
+        width: 80%;
+        /* sa tanan ni siya nga img iya e adjust to 80% sa original nga width 100%*/
+    }
+
+    td,
+    tr {
+        /*Sa table ni siya, bali mao ni ang sulod bitaw after ka mo submit*/
+        text-align: center;
+        height: 1.5rem;
+        width: 1rem;
+    }
+
+    #viewModal {
+        /*Mao ni katong manggawas nga modal :) text-align center means nga ma tunga iyahang content or information :D*/
+        width: 15%;
+        text-align: center;
+    }
+    #editModal{
+        width: 15%; 
+    }
+    h2{
+        text-align:center;
+    }
+    #editModal input{
+        display: grid;
+        width: 75%;
+    }
+</style>
+
+<body>
+
+    <div class="container">
+        <label for="pname">Product Name</label>
+        <input type="text" id="pname">
+            
+        <label for="price">Price</label>
+        <input type="number" id="price">
+
+        <label for="quantity">Quantity</label>
+        <input type="number" id="quantity">
+
+        <label for="desc">Description</label>
+        <input type="text" id="desc">
+
+        <label for="images">Add Image</label>
+        <input type="file" id="images">
+
+        <button id="submit">Submit</button>
+
+    </div>
+
+    <table class="products" border="5"> <!-- border for styling purposes cellpadding para sa -->
+        <tr>
+            <th>#</th>
+            <th>Image</th>
+            <th>Product Name</th>
+            <th>Price</th>
+            <th>Quantity</th>
+            <th>Total</th>
+            <th>Action</th>
+        </tr>
+        <tbody id="product_content"></tbody>
+        <!-- Diri mo display ang gipang input nimo nga details, mao ni siya ang mo gawas after e click ang submit-->
+    </table>
+
+    <dialog id="editModal">
+        <h2>Edit Product Details</h2>
+        <label for="editPname">Product Name</label>
+        <input type="text" id="editPname">
+
+        <label for="editPrice">Price</label>
+        <input type="number" id="editPrice">
+
+        <label for="editQuantity">Quantity</label>
+        <input type="number" id="editQuantity">
+
+        <label for="editDesc">Description</label>
+        <input type="text" id="editDesc">
+
+        <button id="saveChanges">Save</button>
+        <button id="closeEditModal">Close</button>
+    </dialog>
+
+
+    <dialog id="viewModal">
+        <h2>Product Details</h2>
+        <p><img id="dpimage" alt="Product Image"></p>
+        <p>Product Name:<span id="dpname"></span></p>
+        <p>Price: ₱<span id="dprice"></span></p>
+        <p>Quantity: <span id="dqty"></span></p>
+        <p>Total: ₱<span id="dtotal"></span></p>
+        <p>Description: <span id="ddesc"></span></p>
+        <button id="closeModal">Close</button>
+    </dialog>
+
+    <div class="deleting"></div>
+
+</body>
+
+<script>
+    let submit = document.getElementById('submit');
+    let editRow = null;
+
+    submit.addEventListener('click', function () {
+        let total = parseFloat(price.value) * parseFloat(quantity.value);
+        product_content.innerHTML =
+            `<tr>
+    <td>${1}</td>
+    <td><img src="Images/${images.files[0].name}"</td>
+    <td>${pname.value}</td>
+    <td>₱${parseFloat(price.value).toFixed(2)}</td>
+    <td>${quantity.value}</td>
+    <td>₱${total.toFixed(2)}</td>
+    <td>
+    <button class="view">View</button>  
+    <button class="edit">Edit</button>    
+    <button class="delete">Delete</button>  
+    </td>
+</tr>`;
+
+        document.querySelector('.view').addEventListener('click', function () {
+            openModal(product_content); // Para ni sa View class nga inig click kay matawag ang openmodal which displays ang sulod sa product_content
+        });
+        document.querySelector('.edit').addEventListener('click', function () {
+            openEditModal(product_content); // Para ni sa Edit class nga inig click kay matawag ang openEditModal para edit sa sulod sa product_content
+        });
+        document.querySelector('.delete').addEventListener('click', function () {
+            deleting(product_content); // Para mo function ang delete, gibutngan natog event listener ang class nga delete
+        });
+
+        function openModal(product_content) {
+            document.getElementById('dpimage').src = `Images/${images.files[0].name}`;   //gikuha ang sulod sa product_content tapos gitawag ang id sa view modal
+            document.getElementById('dpname').innerText = pname.value;                   //mao ni sila ang mo pop up inig click sa view class
+            document.getElementById('dprice').innerText = price.value;
+            document.getElementById('dqty').innerText = quantity.value;
+            document.getElementById('ddesc').innerText = desc.value;
+            document.getElementById('dtotal').innerText = total;
+
+            document.getElementById('viewModal').showModal();      
+                                 //mao ni ang mo display inig click sa view kay naka showModal()
+            document.getElementById('closeModal').addEventListener('click', function () {
+            document.getElementById('viewModal').close();                               //pang sirado sa modal inig click sa close
+
+            });
+            update()            //diri kay para update sa view inig modify nimo sa edit modal
+        }
+    });
+    
+    function update() {
+        document.getElementById('ddesc').innerText = document.getElementById('editDesc').value;   //diri kay gikuha ang naasa viewmodal nga id tapos gipasa sa editDesc nga value
+        document.getElementById('dpname').innerText = document.getElementById('editPname').value;
+        
+        const editPrice = parseFloat(document.getElementById('editPrice').value).toFixed(2);
+        const editQuantity = parseInt(document.getElementById('editQuantity').value);
+        
+        const total = (editPrice * editQuantity).toFixed(2);  //gi calculate ang quantity * price value
+        document.getElementById('dprice').innerText = `${editPrice}`;       //gi pasa ang edited nga value like editprice, editquantity, og total sa viewmodal nga mga id
+        document.getElementById('dqty').innerText = editQuantity;
+        document.getElementById('dtotal').innerText = `${total}`;
+    }
+    function openEditModal(row) { 
+        editRow = row; // Pang store sa row nga e edit
+        let cells = row.getElementsByTagName('td'); // cell sa row
+
+        editPname.value = cells[2].textContent;     //ikaduha nga cell which is ang product name
+        editPrice.value = parseFloat(cells[3].textContent.replace('₱', '')); //ikatulo nga cell which is ang price
+        editQuantity.value = cells[4].textContent;  //ika upat nga cell which is ang quantity
+        editDesc.value = desc.value;            //ika lima nga cell which is ang description
+        editModal.showModal();
+    }
+    document.getElementById('closeEditModal').addEventListener('click', function () {
+        editModal.close();
+    });
+
+    document.getElementById('saveChanges').addEventListener('click', function () {
+        if (editRow) {
+            let cells = editRow.getElementsByTagName('td'); // kuhaon ang mga row nga e edit :)
+
+            //ang mga value sa modal kay gikuha
+            const name = document.getElementById('editPname').value;
+            const price = parseFloat(document.getElementById('editPrice').value).toFixed(2);
+            const qty = parseInt(document.getElementById('editQuantity').value);
+            document.getElementById('editDesc').innerText = desc.value;
+            const total = (parseFloat(price) * qty).toFixed(2);
+            // diri ta mo update sa table row nga value
+            cells[2].textContent = name; // Update product name
+            cells[3].textContent = `₱${price}`; // Update product price
+            cells[4].textContent = qty; // Update quantity
+            cells[5].textContent = `₱${total}`; // Update total
+
+            document.getElementById('ddesc').innerText = desc;// Update Description
+            // Close the modal after updating the table
+            editModal.close();
+        }
+    });
+
+    function deleting() {  //kani para ma delete ang product display inig click sa delete :D
+        product_content.innerHTML = "";
+    }
+
+</script>
+
+</html>
